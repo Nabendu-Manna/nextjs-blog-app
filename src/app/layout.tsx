@@ -20,7 +20,7 @@ export default function RootLayout({
     <html suppressHydrationWarning dir="ltr" lang="en">
       <Analytics />
       <body className={inter.className}>
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>{children}</Providers>
+        <Providers attribute="class" defaultTheme="dark">{children}</Providers>
       </body>
     </html>
   );
