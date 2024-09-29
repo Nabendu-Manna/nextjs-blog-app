@@ -11,7 +11,7 @@ if (!DATABASE_URL || !ACCOUNTS_DB_NAME || !BLOG_DB_NAME)
 // Declaration of global namespace for caching the database connection.
 declare global {
     var mongoose: {
-        [key: string]: Promise<mongoose.Mongoose> | null
+        [key: string]: Connection | null
     };
 }
 
@@ -32,14 +32,14 @@ if (!cached) {
  * @param dbName 
  * @returns Connection 
  */
-function makeNewConnection(uri: string, dbName: string): Promise<mongoose.Mongoose> {
+function makeNewConnection(uri: string, dbName: string): Connection {
     if (cached && cached[dbName]) {
         console.log(`Already connected to the database ${dbName}`);
         return cached[dbName];
     }
 
     try {
-        cached[dbName] = mongoose.connect(uri, {
+        cached[dbName] = mongoose.createConnection(uri, {
             bufferCommands: false,
             dbName
         });
