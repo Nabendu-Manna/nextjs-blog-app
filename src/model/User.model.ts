@@ -1,5 +1,5 @@
 import { accountsConnection } from "@/lib/dbConnect";
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, now } from "mongoose";
 
 export interface User extends Document {
     username: string;
@@ -45,6 +45,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     createdAt: {
         type: Date,
         required: [true, 'Verify Code Expiry is required'],
+        default: now,
     },
     updatedAt: {
         type: Date,
@@ -52,4 +53,4 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     }
 });
 
-export const userModel = accountsConnection.model('User', UserSchema);
+export const UserModel = accountsConnection.models.User || accountsConnection.model('User', UserSchema);

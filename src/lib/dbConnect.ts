@@ -54,8 +54,3 @@ function makeNewConnection(uri: string, dbName: string): Connection {
 
 export const accountsConnection = makeNewConnection(DATABASE_URL, ACCOUNTS_DB_NAME);
 export const blogConnection = makeNewConnection(DATABASE_URL, BLOG_DB_NAME);
-
-// module.exports = {
-//     accountsConnection,
-//     blogConnection,
-// };
