@@ -1,12 +1,4 @@
 
-import { postModel } from "@/model/Post.model";
-
-
 export async function GET(request: Request) {
-    await postModel.create({
-        title: "Testing blog title",
-        subTitle: "Testing blog subtitle",
-        body: "Testing blog body",
-    });
-    return Response.json({ message: "API testing...", success: true }, { status: 200 });
+    return Response.json({ message: "Endpoint test complete! 🧪 It’s alive! The endpoint responded quicker than my coffee order in the morning. ☕️ Now let's see if it can handle a real-world workout!", success: true }, { status: 200 });
 }

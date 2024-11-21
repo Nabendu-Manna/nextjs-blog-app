@@ -42,4 +42,4 @@ const PostSchema: Schema<Post> = new mongoose.Schema({
     }
 });
 
-export const postModel = blogConnection.models.Post || blogConnection.model('Post', PostSchema);
+export const PostModel = blogConnection.models.Post || blogConnection.model('Post', PostSchema);
