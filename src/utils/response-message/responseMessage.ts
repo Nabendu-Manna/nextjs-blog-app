@@ -12,6 +12,7 @@ export const responseMessage: {
     dataFound: string;
     updateSuccessful: string;
     maxLengthError: string;
+    deleteSuccessful: string;
 } = {
     apiTesting: "Test complete! 🎉 Your API endpoint is smoother than butter on a hot pancake! 🥞🧈",
     fetchSuccessful: "Boom! 🚀 Data fetched successfully! It's like magic, but better! 🪄✨",
@@ -24,5 +25,6 @@ export const responseMessage: {
     dataFound: "Data Found! 🎉 Your data came out of hiding and is ready to party! 🕺🎉",
     updateSuccessful: "Update successful! 🎉 Your data just got a slick new makeover. Looking sharp! ✨😎",
     maxLengthError: "Oops! 🚫 Your input went on a novel spree. Let’s keep it tweet-sized next time! 📝📏",
+    deleteSuccessful: "Delete complete! 🗑️ Your data has left the building. Elvis has left the chat! 🎸🚀",
 };
 

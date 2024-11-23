@@ -1,5 +1,5 @@
 import { MongooseError } from "mongoose";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { PostModel } from "@/model";
 import { PostSchema } from "@/schemas/post";
@@ -12,20 +12,25 @@ export async function GET(
 ) {
     try {
         const post = await PostModel.findById(params.id);
-        return Response.json({
+
+        if (!post) {
+            throw new MongooseError("Record not found")
+        }
+
+        return NextResponse.json({
             message: responseMessage.dataFound,
             success: true,
             data: post
         }, { status: 200 });
     } catch (error) {
         if (error instanceof MongooseError) {
-            return Response.json({
+            return NextResponse.json({
                 success: false,
                 error: error.message,
                 message: responseMessage.dataNotFound,
             }, { status: 404 });
         }
-        return Response.json({ success: false, message: responseMessage.internalServerError }, { status: 500 });
+        return NextResponse.json({ success: false, message: responseMessage.internalServerError }, { status: 500 });
     }
 }
 
@@ -39,7 +44,11 @@ export async function PUT(
 
         const post = await PostModel.findByIdAndUpdate(params.id, payload);
 
-        return Response.json({
+        if (!post) {
+            throw new MongooseError("Record not found")
+        }
+
+        return NextResponse.json({
             message: responseMessage.updateSuccessful,
             success: true,
             data: post
@@ -47,20 +56,53 @@ export async function PUT(
 
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return Response.json({
+            return NextResponse.json({
                 success: false,
                 message: responseMessage.invalidPayload,
                 errors: error.issues,
             }, { status: 400 });
         } else if (error instanceof MongooseError) {
-            return Response.json({
+            return NextResponse.json({
                 success: false,
                 error: error.message,
-                message: responseMessage.dbRejection,
-            }, { status: 500 });
+                message: responseMessage.dataNotFound,
+            }, { status: 404 });
         }
 
-        return Response.json({
+        return NextResponse.json({
+            success: false,
+            message: responseMessage.internalServerError,
+        }, { status: 500 });
+    }
+}
+
+
+export async function DELETE(
+    request: NextRequest,
+    { params }: { params: { id: number } }
+) {
+    try {
+        const post = await PostModel.findByIdAndDelete(params.id);
+
+        if (!post) {
+            throw new MongooseError("Record not found")
+        }
+
+        return NextResponse.json({
+            message: responseMessage.deleteSuccessful,
+            success: true,
+        }, { status: 200 });
+
+    } catch (error) {
+        if (error instanceof MongooseError) {
+            return NextResponse.json({
+                success: false,
+                error: error.message,
+                message: responseMessage.dataNotFound,
+            }, { status: 404 });
+        }
+
+        return NextResponse.json({
             success: false,
             message: responseMessage.internalServerError,
         }, { status: 500 });
