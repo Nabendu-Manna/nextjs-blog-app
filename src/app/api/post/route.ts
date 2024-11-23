@@ -1,10 +1,11 @@
 import { z } from "zod";
 import { MongooseError } from "mongoose";
+import { NextRequest } from "next/server";
 import { PostModel } from "@/model";
 import { PostSchema } from "@/schemas/post";
 
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
         const posts = await PostModel.find({});
         return Response.json({
@@ -17,7 +18,7 @@ export async function GET(request: Request) {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     try {
         const payload = await request.json();
         PostSchema.parse(payload);
@@ -53,7 +54,4 @@ export async function POST(request: Request) {
             message: "Internal Server Meltdown! 🔥🤯 Your payload sent our server into a spiral of confusion. It’s currently curled up in a corner, questioning its life choices. Let's give it something it can actually understand! 🛠️💻",
         }, { status: 500 });
     }
-
-
-
 }
