@@ -12,6 +12,7 @@
     "@nextui-org/react": "^2.4.6",
     "@reduxjs/toolkit": "^2.2.7",
     "framer-motion": "^11.3.28",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.428.0",
     "mongoose": "^8.6.3",
     "next": "14.2.5",

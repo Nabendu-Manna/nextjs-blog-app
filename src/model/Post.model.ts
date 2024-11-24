@@ -17,6 +17,7 @@ const PostSchema: Schema<Post> = new mongoose.Schema({
         required: [true, 'Title is required'],
         trim: true,
         unique: true,
+        index: true,
         maxLength: [50, 'Title can not exceed 50 characters'],
     },
     subTitle: {

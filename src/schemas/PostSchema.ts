@@ -1,5 +1,5 @@
-import { responseMessage } from '@/utils';
 import { z } from 'zod';
+import { responseMessage } from '@/utils';
 
 export const PostSchema = z.object({
     title: z.string().max(50, `${responseMessage.maxLengthError} [max length 50]`),

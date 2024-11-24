@@ -1,33 +1,46 @@
-import { z } from "zod";
 import { MongooseError } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import { PostModel } from "@/model";
-import { PostSchema } from "@/schemas";
+import { z } from "zod";
+import { UserModel } from "@/model";
+import { UserSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
-
-
-export async function GET(request: NextRequest) {
-    try {
-        const posts = await PostModel.find({});
-        return NextResponse.json({
-            message: responseMessage.fetchSuccessful,
-            success: true,
-            data: posts
-        }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ success: false, message: responseMessage.fetchFailed }, { status: 500 });
-    }
-}
 
 export async function POST(request: NextRequest) {
     try {
         const payload = await request.json();
-        PostSchema.parse(payload);
-        const post = await PostModel.create(payload);
+        UserSchema.parse(payload);
+
+        // const userBy = await UserModel.findOne({
+        //     $or: [
+        //         { email: payload.email },
+        //         { username: payload.username }
+        //     ]
+        // })
+
+        // const user = await UserModel.findOne({
+        //     $or: [
+        //         { email: payload.email },
+        //         { username: payload.username }
+        //     ]
+        // })
+        
+
+        // if (user)
+        //     throw new Error('User found with this email');
+
+        const now = new Date();
+        const fiveMinutesLater = new Date(now.getTime() + 5 * 60 * 1000);
+
+        const user = await UserModel.create({
+            ...payload,
+            verifyCode: "123456",
+            verifyCodeExpiry: fiveMinutesLater
+        });
+
         return NextResponse.json({
             success: true,
             message: responseMessage.insertSuccessful,
-            data: post
+            data: user
         }, { status: 201 });
     } catch (error) {
         if (error instanceof z.ZodError) {

@@ -18,11 +18,13 @@ const UserSchema: Schema<User> = new mongoose.Schema({
         required: [true, 'Username is required'],
         trim: true,
         unique: true,
+        index: true,
     },
     email: {
         type: String,
         required: [true, 'Email is required'],
         unique: true,
+        index: true,
         match: [/.+\@.+\..+/, 'Please use a valid email address'],
     },
     password: {
@@ -49,7 +51,6 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-        required: [true, 'Verify Code Expiry is required'],
     }
 });
 

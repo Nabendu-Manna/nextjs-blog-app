@@ -2,7 +2,7 @@ import { MongooseError } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { PostModel } from "@/model";
-import { PostSchema } from "@/schemas/post";
+import { PostSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
 
 
