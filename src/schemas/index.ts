@@ -1,8 +1,10 @@
 import { PostSchema } from "./PostSchema";
-import { UserSchema } from "./UserSchema";
+import { LoginRequestSchema, RegisterRequestSchema, UserSchema } from "./UserSchema";
 
 
 export {
     PostSchema,
     UserSchema,
+    RegisterRequestSchema,
+    LoginRequestSchema,
 };

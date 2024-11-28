@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from 'bcryptjs';
 import { UserModel } from "@/model";
-import { UserSchema } from "@/schemas";
+import { RegisterRequestSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
 
 export async function POST(request: NextRequest) {
     try {
         let { password, ...payload } = await request.json();
-        UserSchema.parse({ ...payload, password });
+        RegisterRequestSchema.parse({ ...payload, password });
 
         const [userByEmail, userByUserName] = await Promise.all([
             UserModel.findOne({
