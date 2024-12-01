@@ -23,3 +23,7 @@ export const LoginRequestSchema = z.object({
     password: z.string().min(8, 'Password must be at least 8 characters long')
         .regex(/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/, 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
 });
+
+export const RefreshTokenSchema = z.object({
+    refreshToken: z.string().regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/, 'its dos\'t look like a refresh token'),
+});

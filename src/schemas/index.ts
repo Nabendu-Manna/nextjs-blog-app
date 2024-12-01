@@ -1,5 +1,5 @@
 import { PostSchema } from "./PostSchema";
-import { LoginRequestSchema, RegisterRequestSchema, UserSchema } from "./UserSchema";
+import { LoginRequestSchema, RefreshTokenSchema, RegisterRequestSchema, UserSchema } from "./UserSchema";
 
 
 export {
@@ -7,4 +7,5 @@ export {
     UserSchema,
     RegisterRequestSchema,
     LoginRequestSchema,
+    RefreshTokenSchema,
 };
