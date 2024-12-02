@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     } catch (err) {
         return NextResponse.json({
             success: false,
-            message: 'invalid invalid token payload' // @Nabendu-Manna @todo change the error message
+            message: 'invalid invalid token payload'
         }, { status: 404 });
     }
 
