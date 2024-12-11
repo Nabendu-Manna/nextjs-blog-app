@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         const payload = await req.json();
         RefreshTokenSchema.parse(payload);
-        const tokenPayload = verifyRefreshToken(payload.refreshToken);
+        const tokenPayload = await verifyRefreshToken(payload.refreshToken);
         if (tokenPayload === null || typeof tokenPayload === 'string') {
             throw new Error();
         }
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         }
 
         const { username, email, _id } = user;
-        const { accessToken } = generateAccessTokens({ username, email, user_id: _id });
+        const { accessToken } = await generateAccessTokens({ username, email, user_id: _id });
         return NextResponse.json({
             success: true,
             data: { accessToken, username, email, _id },

@@ -4,10 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { PostModel } from "@/model";
 import { PostSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
+import { AuthorizedRequest } from "@/types/token";
 
 
-export async function GET(request: NextRequest) {
+export async function GET(request: AuthorizedRequest) {
     try {
+        console.log(request.user, 'user');
         const posts = await PostModel.find({});
         return NextResponse.json({
             message: responseMessage.fetchSuccessful,

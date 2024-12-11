@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
             }, { status: 404 });
         }
 
-        const { accessToken, refreshToken } = generateTokens({
+        const { accessToken, refreshToken } = await generateTokens({
             accessTokenPayload: {
                 user_id: _id,
                 username: username,

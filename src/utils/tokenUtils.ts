@@ -1,59 +1,57 @@
-import { AccessTokenPayload, RefreshTokenDecode, RefreshTokenPayload } from '@/types/token';
-import jwt, { Jwt, JwtPayload, VerifyErrors } from 'jsonwebtoken';
-import { NextRequest, NextResponse } from 'next/server';
+import { SignJWT, jwtVerify } from 'jose';
+import { AccessTokenDecode, AccessTokenPayload, RefreshTokenDecode, RefreshTokenPayload } from '@/types/token';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'your_access_token_secret';
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'your_refresh_token_secret';
+const ACCESS_TOKEN_EXPIRES_IN = parseInt(process.env.ACCESS_TOKEN_EXPIRES_IN || '1');
+const REFRESH_TOKEN_EXPIRES_IN = parseInt(process.env.REFRESH_TOKEN_EXPIRES_IN || '1440');
 
-export const generateAccessTokens = (payload: AccessTokenPayload) => {
-    const accessToken = jwt.sign(
-        { ...payload },
-        ACCESS_TOKEN_SECRET,
-        { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || '1m' }
-    );
+export const generateAccessTokens = async (payload: AccessTokenPayload) => {
+    const iat = Math.floor(Date.now() / 1000);
+    const exp = iat + 60 * ACCESS_TOKEN_EXPIRES_IN;
+    const accessToken = await new SignJWT({ ...payload })
+        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+        .setExpirationTime(exp)
+        .setIssuedAt(iat)
+        .setNotBefore(iat)
+        .sign(new TextEncoder().encode(ACCESS_TOKEN_SECRET));
 
     return { accessToken };
 };
 
-export const generateRefreshTokens = (payload: RefreshTokenPayload) => {
-    const refreshToken = jwt.sign(
-        { ...payload },
-        REFRESH_TOKEN_SECRET,
-        { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d' }
-    );
+export const generateRefreshTokens = async (payload: RefreshTokenPayload) => {
+    const iat = Math.floor(Date.now() / 1000);
+    const exp = iat + 60 * REFRESH_TOKEN_EXPIRES_IN;
+    const refreshToken = await new SignJWT({ ...payload })
+        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+        .setExpirationTime(exp)
+        .setIssuedAt(iat)
+        .setNotBefore(iat)
+        .sign(new TextEncoder().encode(REFRESH_TOKEN_SECRET));
+
     return { refreshToken };
 };
 
-export const generateTokens = ({ accessTokenPayload, refreshTokenPayload }: { accessTokenPayload: AccessTokenPayload, refreshTokenPayload: RefreshTokenPayload }) => {
-    const { accessToken } = generateAccessTokens(accessTokenPayload);
-    const { refreshToken } = generateRefreshTokens(refreshTokenPayload);
+export const generateTokens = async ({ accessTokenPayload, refreshTokenPayload }: { accessTokenPayload: AccessTokenPayload, refreshTokenPayload: RefreshTokenPayload }) => {
+    const { accessToken } = await generateAccessTokens(accessTokenPayload);
+    const { refreshToken } = await generateRefreshTokens(refreshTokenPayload);
     return { accessToken, refreshToken };
 };
 
-export const verifyAccessToken = (token: string): string | JwtPayload | null => {
+export const verifyAccessToken = async (token: string): Promise<AccessTokenDecode | null> => {
     try {
-        return jwt.verify(token, ACCESS_TOKEN_SECRET);
+        const { payload } = await jwtVerify<AccessTokenDecode>(token, new TextEncoder().encode(ACCESS_TOKEN_SECRET));
+        return payload;
     } catch (err) {
         return null;
     }
 };
 
-export const verifyRefreshToken = (token: string): string | RefreshTokenDecode | null => {
+export const verifyRefreshToken = async (token: string): Promise<RefreshTokenDecode | null> => {
     try {
-        return jwt.verify(token, REFRESH_TOKEN_SECRET) as RefreshTokenDecode;
+        const { payload } = await jwtVerify<RefreshTokenDecode>(token, new TextEncoder().encode(REFRESH_TOKEN_SECRET));
+        return payload;
     } catch (err) {
         return null;
     }
 };
-
-// export const verifyAccessTokena = async (req: NextRequest) => {
-//     try {
-//         const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-//         if (!token) { throw new Error(); }
-//         const decoded = jwt.verify(token, ACCESS_TOKEN_SECRET);
-//         (req as AuthorizedRequest).user = decoded;
-//         NextResponse.next();
-//     } catch (err) {
-//         NextResponse.json({ success: false, message: 'Please authenticate' }, { status: 401 });
-//     }
-// };
