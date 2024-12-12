@@ -2,7 +2,7 @@ import { NextRequest } from "next/server";
 import {type JWTPayload } from 'jose';
 
 export interface AuthorizedRequest extends NextRequest {
-    user: string | JWTPayload;
+    user: AccessTokenDecode;
 }
 
 export type AccessTokenPayload = {

@@ -5,6 +5,7 @@
         "Nabendu",
         "nextui",
         "reduxjs",
-        "tailwindcss"
+        "tailwindcss",
+        "uuidv"
     ]
 }

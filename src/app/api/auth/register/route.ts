@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
             errors.push('User found with this email');
         if (userByUserName)
             errors.push('User found with this username');
-        if(errors.length > 0)
+        if (errors.length > 0)
             throw new Error(errors.toString());
 
         const now = new Date();
@@ -41,7 +41,11 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({
             success: true,
             message: responseMessage.insertSuccessful,
-            data: user
+            data: {
+                username: user.username,
+                email: user.email,
+                createdAt: user.createdAt
+            }
         }, { status: 201 });
     } catch (error: any) {
         if (error instanceof z.ZodError) {

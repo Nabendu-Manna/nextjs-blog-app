@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { AccessTokenDecode, AccessTokenPayload, RefreshTokenDecode, RefreshTokenPayload } from '@/types/token';
+import { NextRequest } from 'next/server';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET || 'your_access_token_secret';
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET || 'your_refresh_token_secret';
@@ -55,3 +56,16 @@ export const verifyRefreshToken = async (token: string): Promise<RefreshTokenDec
         return null;
     }
 };
+
+export const getAuthorizeUser = async (req: NextRequest) => {
+    try {
+        const token = req.headers.get('Authorization')?.split(' ')[1];
+        if (!token) {
+            throw new Error();
+        }
+        const jsonPayload = await verifyAccessToken(token);
+        return jsonPayload;
+    } catch (err) {
+        return null;
+    }
+}

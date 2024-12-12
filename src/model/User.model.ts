@@ -1,7 +1,9 @@
-import { accountsConnection } from "@/lib/dbConnect";
 import mongoose, { Schema, Document, now } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+import { accountsConnection } from "@/lib/dbConnect";
 
 export interface User extends Document {
+    userKey: string;
     username: string;
     email: string;
     password: string;
@@ -13,6 +15,11 @@ export interface User extends Document {
 }
 
 const UserSchema: Schema<User> = new mongoose.Schema({
+    userKey: {
+        type: String,
+        default: uuidv4,
+        unique: true
+    },
     username: {
         type: String,
         required: [true, 'Username is required'],
@@ -50,7 +57,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-    }
+    },
 });
 
 export const UserModel = accountsConnection.models.User || accountsConnection.model('User', UserSchema);

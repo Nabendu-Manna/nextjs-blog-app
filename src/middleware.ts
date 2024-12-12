@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAccessToken } from './utils';
-import { AuthorizedRequest } from './types/token';
+// import { AuthorizedRequest } from './types/token';
 
-export async function middleware(request: NextRequest) {
-
+export default async function middleware(request: NextRequest) {
     if (request.nextUrl.pathname.startsWith('/api')) {
+        if (request.nextUrl.pathname.startsWith('/api/post/*') || request.method === 'GET') {
+            return NextResponse.next();
+        }
         const token = request.headers.get('Authorization')?.split(' ')[1];
         if (!token) {
             return NextResponse.json({ success: false, message: 'No token provided' }, { status: 403 });
@@ -14,7 +16,7 @@ export async function middleware(request: NextRequest) {
         if (!jsonPayload) {
             return NextResponse.json({ success: false, message: 'Failed to authenticate token' }, { status: 401 });
         }
-        (request as AuthorizedRequest).user = jsonPayload;
+        // (request as AuthorizedRequest).user = jsonPayload;
         return NextResponse.next();
     }
 }

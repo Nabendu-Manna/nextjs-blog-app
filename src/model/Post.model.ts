@@ -2,6 +2,7 @@ import { blogConnection } from "@/lib/dbConnect";
 import mongoose, { Schema, Document, now } from "mongoose";
 
 export interface Post extends Document {
+    userId: string;
     title: string;
     subTitle: string;
     body: string;
@@ -12,6 +13,10 @@ export interface Post extends Document {
 };
 
 const PostSchema: Schema<Post> = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: [true, 'Title is required'],
+    },
     title: {
         type: String,
         required: [true, 'Title is required'],
@@ -40,7 +45,7 @@ const PostSchema: Schema<Post> = new mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-    }
+    },
 });
 
 export const PostModel = blogConnection.models.Post || blogConnection.model('Post', PostSchema);

@@ -4,12 +4,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { PostModel } from "@/model";
 import { PostSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
-import { AuthorizedRequest } from "@/types/token";
+import { getAuthorizeUser } from "@/utils/tokenUtils";
 
 
-export async function GET(request: AuthorizedRequest) {
+export async function GET(request: NextRequest) {
     try {
-        console.log(request.user, 'user');
         const posts = await PostModel.find({});
         return NextResponse.json({
             message: responseMessage.fetchSuccessful,
@@ -23,9 +22,14 @@ export async function GET(request: AuthorizedRequest) {
 
 export async function POST(request: NextRequest) {
     try {
+        const authUser = await getAuthorizeUser(request);
+        if (!authUser) {
+            throw new Error();
+        }
+        console.log(authUser, "authorization");
         const payload = await request.json();
         PostSchema.parse(payload);
-        const post = await PostModel.create(payload);
+        const post = await PostModel.create({ ...payload, userId: authUser.user_id });
         return NextResponse.json({
             success: true,
             message: responseMessage.insertSuccessful,
