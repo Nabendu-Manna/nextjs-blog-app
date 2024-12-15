@@ -131,12 +131,12 @@ export default function AppNavbar() {
                 </NavbarItem>
                 <NavbarItem>
                     <Button as={Link} href="login" color="primary" variant="ghost" size="sm" radius="lg">
-                        Sign In
+                        Sign in
                     </Button>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
                     <Button as={Link} href="register" color="primary" variant="solid" size="sm" radius="lg">
-                        Sign Up
+                        Sign up
                     </Button>
                 </NavbarItem>
 
