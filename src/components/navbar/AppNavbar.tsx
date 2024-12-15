@@ -52,7 +52,7 @@ export default function AppNavbar() {
                             height={35}
                             priority
                         />
-                        <p className="font-bold text-foreground-900">BlogHub</p>
+                        <p className="hidden md:block font-bold text-foreground-900">BlogHub</p>
                     </Link>
                 </NavbarBrand>
             </NavbarContent>
