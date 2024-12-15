@@ -43,15 +43,23 @@ const config: Config = {
             foreground: "#000000",
           },
           focus: "#1AACDC",
+          secondary: {
+            DEFAULT: "#FF4D4D",
+            foreground: "#000000",
+          },
         },
       },
       light: {
         colors: {
           primary: {
             DEFAULT: "#1CC6FF",
-            foreground: "#000000",
+            foreground: "#FFFFFF",
           },
           focus: "#1AACDC",
+          secondary: {
+            DEFAULT: "#FF4D4D",
+            foreground: "#FFFFFF",
+          },
         },
       },
     },

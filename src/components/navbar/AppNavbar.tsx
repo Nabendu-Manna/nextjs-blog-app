@@ -43,15 +43,17 @@ export default function AppNavbar() {
         <Navbar onMenuOpenChange={setIsMenuOpen} maxWidth={'xl'}>
             <NavbarContent className="basis-1/5 sm:basis-0 -ml-2" justify="start">
                 <NavbarBrand as="li" className="md:gap-3 max-w-fit">
-                    <Image
-                        src="/logo.svg"
-                        alt="404 error"
-                        className=""
-                        width={35}
-                        height={35}
-                        priority
-                    />
-                    <p className="font-bold text-foreground-900">Blog</p>
+                    <Link href="/">
+                        <Image
+                            src="/logo.svg"
+                            alt="404 error"
+                            className=""
+                            width={35}
+                            height={35}
+                            priority
+                        />
+                        <p className="font-bold text-foreground-900">BlogHub</p>
+                    </Link>
                 </NavbarBrand>
             </NavbarContent>
             <NavbarContent className="gap-2" justify="end">
@@ -128,12 +130,12 @@ export default function AppNavbar() {
                     </Button>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} href="#" color="primary" variant="ghost" size="sm" radius="lg">
+                    <Button as={Link} href="login" color="primary" variant="ghost" size="sm" radius="lg">
                         Sign In
                     </Button>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
-                    <Button as={Link} href="#" color="primary" variant="solid" size="sm" radius="lg">
+                    <Button as={Link} href="register" color="primary" variant="solid" size="sm" radius="lg">
                         Sign Up
                     </Button>
                 </NavbarItem>

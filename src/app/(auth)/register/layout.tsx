@@ -3,7 +3,7 @@ import React, { Suspense } from "react";
 import Loading from "@/components/Loading";
 import { Image } from "@nextui-org/react";
 
-const RegisterLayout = ({ children }: { children: React.ReactNode }) => {
+const LoginLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <main className="relative container mx-auto max-w-7xl z-10 px-6 min-h-[calc(100vh_-_64px_-_108px)] mb-12 flex-grow">
@@ -20,4 +20,4 @@ const RegisterLayout = ({ children }: { children: React.ReactNode }) => {
     );
 }
 
-export default RegisterLayout;
+export default LoginLayout;
