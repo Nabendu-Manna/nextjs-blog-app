@@ -44,7 +44,7 @@ export default function Register() {
     return (
         <div className="mx-auto max-w-[320px]">
             <div className="p-0 text-center text-foreground-900">
-                <h1>Sign in to BlogHub</h1>
+                <h1>Create account to BlogHub</h1>
             </div>
             <div className="p-3 mt-3 rounded-xl bg-foreground-50/75">
                 <form className="flex w-full flex-wrap gap-3" onSubmit={handleSubmit(onSubmit, onError)}>
