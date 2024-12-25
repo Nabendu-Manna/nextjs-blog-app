@@ -5,9 +5,11 @@ import { PostModel } from "@/model";
 import { PostSchema } from "@/schemas";
 import { responseMessage } from "@/utils";
 import { getAuthorizeUser } from "@/utils/tokenUtils";
+import { writeFile } from "fs/promises";
+import path from "path";
 
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
         const posts = await PostModel.find({});
         return NextResponse.json({
@@ -20,16 +22,31 @@ export async function GET(request: NextRequest) {
     }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const authUser = await getAuthorizeUser(request);
+        const authUser = await getAuthorizeUser(req);
         if (!authUser) {
             throw new Error();
         }
-        console.log(authUser, "authorization");
-        const payload = await request.json();
-        PostSchema.parse(payload);
-        const post = await PostModel.create({ ...payload, userId: authUser.user_id });
+        // const payload = await req.json();
+        const formData = await req.formData();
+
+        const { image, ...data } = PostSchema.parse(Object.fromEntries(formData));
+
+        const file = formData.get("image");
+        let filename: string | null = null;
+        if (file && file instanceof File) {
+            const buffer = Buffer.from(await file.arrayBuffer());
+            filename = `[${Date.now()}]${file.name.replaceAll(" ", "_")}`;
+            await writeFile(
+                path.join(process.cwd(), "public/storage/" + filename),
+                buffer as NodeJS.ArrayBufferView
+            );
+        }
+
+        console.log(filename);
+        
+        const post = await PostModel.create({ ...data, userId: authUser.user_id, image: filename });
         return NextResponse.json({
             success: true,
             message: responseMessage.insertSuccessful,
