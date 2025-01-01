@@ -7,7 +7,7 @@ import Icon from "@/components/Icon";
 export default function RightSideBar() {
 
     return (
-        <div className="grid grid-cols-1 gap-2 z-0 ">
+        <div className="flex flex-col gap-2 z-0 ">
             <Card isFooterBlurred className="border-none" radius="lg">
                 <Image
                     alt="Woman listing to music"

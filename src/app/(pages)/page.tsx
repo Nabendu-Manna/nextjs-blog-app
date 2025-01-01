@@ -1,5 +1,6 @@
 "use client"
 
+import PostList from "@/components/ui/PostList";
 import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 
 export default function Home() {
@@ -9,9 +10,7 @@ export default function Home() {
                 <Tab key="photos" title="Photos">
                     <Card className="border-0 bg-transparent stroke-transparent">
                         <CardBody>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <PostList />
                         </CardBody>
                     </Card>
                 </Tab>
